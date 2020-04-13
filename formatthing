@@ -1,0 +1,33 @@
+import csv
+import re
+import pandas
+namn = input("Exact file name")
+
+with open(namn + '.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+
+    fel = []
+
+    for row in csv_file:
+        obj = row.split(",")
+
+        for i in obj:
+            x = re.search(r'20[1-2][\d]-[0-1][\d]-[0-3][\d][\s][0-2][\d]:[0-6][\d]:[\d][\d]', i)
+
+            if x is not None:
+                fel.append(x.group())
+
+text = open(namn + ".csv", "r")
+text = ''.join([i for i in text])
+print(text)
+print(fel)
+
+for i in range(len(fel)):
+    kul = text.replace(fel[i], fel[i][:-3])
+    text = kul
+
+x = open(namn + "edited" + ".csv", "w")
+x.writelines(kul)
+print(kul)
+x.close()
+
